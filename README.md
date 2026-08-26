@@ -59,10 +59,16 @@ Machine: Linux-6.8.0-136-generic-x86_64-with-glibc2.39; Python 3.13.14.
 
 | case | mojo-pyquadkey2 | pyquadkey2 | ratio |
 |---|---:|---:|---:|
-| geo_to_pixel_many | 40.6 ms | 710.8 ms | 17.49x faster |
-| pixel_to_geo_many | 46.4 ms | 801.0 ms | 17.26x faster |
-| ground_resolution_many | 11.5 ms | 83.0 ms | 7.20x faster |
-| tile_to_quadint_many | 12.9 ms | 2621.2 ms | 203.63x faster |
+| geo_to_pixel_many | 30.1 ms | 640.3 ms | 21.28x faster |
+| pixel_to_geo_many | 31.2 ms | 720.8 ms | 23.09x faster |
+| ground_resolution_many | 10.7 ms | 76.3 ms | 7.16x faster |
+| tile_to_quadint_many | 12.3 ms | 2315.6 ms | 188.16x faster |
+
+No GPU path is provided. These kernels perform too little work per transferred byte
+to amortize device copies and launch overhead at the benchmark size; the CPU is the
+default and fastest practical execution path. The profiling baseline also found no
+kernel at parity with or slower than upstream, so kernels already more than 5x ahead
+were deliberately left unchanged.
 
 ## How it works
 
